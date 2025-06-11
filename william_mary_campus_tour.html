@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College of William & Mary Campus Tour</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #115740 0%, #FFD700 30%, #FFFFFF 70%, #115740 100%);
+            min-height: 100vh;
+            color: #2F1B14;
+        }
+
+        .header {
+            background: rgba(17, 87, 64, 0.95);
+            color: #FFD700;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
+            position: relative;
+            z-index: 2;
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header .subtitle {
+            font-size: 1rem;
+            margin-top: 0.5rem;
+            font-style: italic;
+            opacity: 0.8;
+        }
+
+        .tour-container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .tour-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .building-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 18px;
+            padding: 1.8rem;
+            box-shadow: 0 10px 30px rgba(17, 87, 64, 0.2);
+            border: 3px solid #115740;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .building-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .building-card:hover::before {
+            left: 100%;
+        }
+
+        .building-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(17, 87, 64, 0.3);
+            border-color: #FFD700;
+        }
+
+        .building-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .building-icon {
+            font-size: 2.2rem;
+            margin-right: 1.2rem;
+            color: #115740;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .building-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #115740;
+            line-height: 1.2;
+        }
+
+        .building-subtitle {
+            font-size: 1rem;
+            color: #666;
+            font-style: italic;
+            margin-bottom: 1.2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .building-year {
+            background: #FFD700;
+            color: #115740;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            display: inline-block;
+            position: relative;
+            z-index: 2;
+        }
+
+        .building-description {
+            line-height: 1.7;
+            margin-bottom: 1.2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .building-highlights {
+            background: rgba(17, 87, 64, 0.08);
+            padding: 1.2rem;
+            border-radius: 12px;
+            border-left: 5px solid #115740;
+            margin-top: 1.2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .highlights-title {
+            font-weight: bold;
+            color: #115740;
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+        }
+
+        .highlights-list {
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .tour-info {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 18px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border: 3px solid #115740;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(17, 87, 64, 0.15);
+        }
+
+        .tour-info h2 {
+            color: #115740;
+            margin-bottom: 1.2rem;
+            font-size: 2rem;
+        }
+
+        .tour-info p {
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
+
+        .campus-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-box {
+            background: rgba(17, 87, 64, 0.1);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid #115740;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #115740;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        .walking-path {
+            background: rgba(255, 215, 0, 0.15);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 2rem;
+            border: 3px dashed #FFD700;
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.2);
+        }
+
+        .path-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #115740;
+            margin-bottom: 1.2rem;
+            text-align: center;
+        }
+
+        .path-description {
+            line-height: 1.7;
+            text-align: center;
+            font-size: 1.05rem;
+        }
+
+        .era-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #115740;
+            color: #FFD700;
+            padding: 0.4rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            z-index: 3;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .tour-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .building-card {
+                padding: 1.5rem;
+            }
+
+            .campus-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎓 College of William & Mary</h1>
+        <p>Historic Campus Tour</p>
+        <div class="subtitle">America's Second-Oldest College • Founded 1693</div>
+    </div>
+
+    <div class="tour-container">
+        <div class="tour-info fade-in">
+            <h2>Welcome to the Historic Campus</h2>
+            <p>Explore the beautiful and historically significant buildings of the College of William & Mary in Williamsburg, Virginia. From colonial-era structures to modern academic facilities, each building tells the story of American higher education and the leaders it has shaped.</p>
+            
+            <div class="campus-stats">
+                <div class="stat-box">
+                    <span class="stat-number">1693</span>
+                    <div class="stat-label">Founded</div>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">3</span>
+                    <div class="stat-label">U.S. Presidents</div>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">1200</span>
+                    <div class="stat-label">Acre Campus</div>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">1st</span>
+                    <div class="stat-label">Honor Code</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tour-grid">
+            <div class="building-card fade-in" onclick="highlightCard(this)">
+                <div class="era-badge">Colonial</div>
+                <div class="building-header">
+                    <div class="building-icon">🏛️</div>
+                    <div>
+                        <div class="building-title">The Wren Building</div>
+                    </div>
+                </div>
+                <div class="building-subtitle">Oldest Academic Building in Continuous Use</div>
+                <div class="building-year">Built: 1695-1700</div>
+                <div class="building-description">
+                    The crown jewel of William & Mary, the Wren Building is the oldest academic building in continuous use in the United States. Named after architect Christopher Wren, this Georgian brick masterpiece housed the entire college for over a century and educated presidents Jefferson, Monroe, and Tyler.
+                </div>
+                <div class="building-highlights">
+                    <div class="highlights-title">Historic Significance:</div>
+                    <div class="highlights-list">
+                        • Oldest college building in continuous use in America<br>
+                        • Survived three major fires and reconstructions<br>
+                        • Contains the historic Great Hall and Chapel<br>
+                        • Home to faculty offices and classrooms since 1695
+                    </div>
+                </div>
+            </div>
+
+            <div class="building-card fade-in" onclick="highlightCard(this)">
+                <div class="era-badge">Colonial</div>
+                <div class="building-header">
+                    <div class="building-icon">🏠</div>
+                    <div>
+                        <div class="building-title">The President's House</div>
+                    </div>
+                </div>
+                <div class="building-subtitle">Historic Presidential Residence</div>
+                <div class="building-year">Built: 1732</div>
+                <div class="building-description">
+                    The official residence of William & Mary's president since 1732, making it the oldest continuously occupied president's house in the United States. This Georgian mansion has hosted countless distinguished guests and continues to serve its original purpose today.
+                </div>
+                <div class="building-highlights">
+                    <div class="highlights-title">Presidential Legacy:</div>
+                    <div class="highlights-list">
+                        • Oldest continuously occupied college president's house<br>
+                        • Georgian architecture with period furnishings<br>
+                        • Site of important college and community events<br>
+                        • Symbol of institutional continuity and tradition
+                    </div>
+                </div>
+            </div>
+
+            <div class="building-card fade-in" onclick="highlightCard(this)">
+                <div class="era-badge">Victorian</div>
+                <div class="building-header">
+                    <div class="building-icon">🎭</div>
+                    <div>
+                        <div class="building-title">Ewell Hall</div>
+                    </div>
+                </div>
+                <div class="building-subtitle">Historic Classroom Building</div>
+                <div class="building-year">Built: 1903</div>
+                <div class="building-description">
+                    Named after Benjamin Stoddert Ewell, the college's president who saved it from closure during the Civil War, Ewell Hall represents the college's rebirth in the early 20th century. This Collegiate Gothic building houses liberal arts departments and continues the tradition of classical education.
+                </div>
+                <div class="building-highlights">
+                    <div class="highlights-title">Academic Heritage:</div>
+                    <div class="highlights-list">
+                        • Named after the president who saved the college<br>
+                        • Beautiful Collegiate Gothic architecture<br>
+                        • Home to English and Modern Languages departments<br>
+                        • Symbol of the college's post-Civil War revival
+                    </div>
+                </div>
+            </div>
+
+            <div class="building-card fade-in" onclick="highlightCard(this)">
+                <div class="era-badge">20th Century</div>
+                <div class="building-header">
+                    <div class="building-icon">📚</div>
+                    <div>
+                        <div class="building-title">Earl Gregg Swem Library</div>
+                    </div>
+                </div>
+                <div class="building-subtitle">Main Academic Library</div>
+                <div class="building-year">Built: 1966 (Expanded: 2005)</div>
+                <div class="building-description">
+                    The heart of academic life at William & Mary, Swem Library serves as the main research library with over 1.6 million volumes. Named after the college's longtime librarian, it combines traditional academic resources with cutting-edge technology and collaborative learning spaces.
+                </div>
+                <div class="building-highlights">
+                    <div class="highlights-title">Academic Resources:</div>
+                    <div class="highlights-list">
+                        • Over 1.6 million books and periodicals<br>
+                        • Special Collections including colonial manuscripts<br>
+                        • Modern technology and collaborative study spaces<br>
+                        • Center of research and academic support
+                    </div>
+                </div>
+            </div>
+
+            <div class="building-card fade-in" onclick="highlightCard(this)">
+                <div class="era-badge">Modern</div>
+                <div class="building-header">
+                    <div class="building-icon">💼</div>
+                    <div>
+                        <div class="building-title">Alan B. Miller Hall</div>
+                    </div>
+                </div>
+                <div class="building-subtitle">Mason School of Business</div>
+                <div class="building-year">Built: 2009</div>
+                <div class="building-description">
+                    This state-of-the-art facility houses the Raymond A. Mason School of Business, combining sustainable design with cutting-edge technology. The building represents William & Mary's commitment to innovative business education while maintaining environmental responsibility.
+                </div>
+                <div class="building-highlights">
+                    <div class="highlights-title">Modern Excellence:</div>
+                    <div class="highlights-list">
+                        • LEED Gold certified sustainable building<br>
+                        • Advanced technology and collaborative spaces<br>
+                        • Home to highly ranked MBA and undergraduate programs<br>
+                        • Symbol of 21st-century business education
+                    </div>
+                </div>
+            </div>
+
+            <div class="building-card fade-in" onclick="highlightCard(this)">
+                <div class="era-badge">Mid-Century</div>
+                <div class="building-header">
+                    <div class="building-icon">🎨</div>
+                    <div>
+                        <div class="building-title">Muscarelle Museum of Art</div>
+                    </div>
+                </div>
+                <div class="building-subtitle">Campus Art Museum</div>
+                <div class="building-year">Built: 1983</div>
+                <div class="building-description">
+                    The Muscarelle Museum serves as both an academic resource and community cultural center, featuring rotating exhibitions and a permanent collection spanning 5,000 years of art history. It provides students with direct access to original artworks for study and inspiration.
+                </div>
+                <div class="building-highlights">
+                    <div class="highlights-title">Cultural Significance:</div>
+                    <div class="highlights-list">
+                        • Diverse permanent collection and rotating exhibitions<br>
+                        • Academic resource for art history and studio art<br>
+                        • Community cultural programming and events<br>
+                        • Integration of arts with liberal arts education
+                    </div>
+                </div>
+            </div>
+
+            <div class="building-card fade-in" onclick="highlightCard(this)">
+                <div class="era-badge">20th Century</div>
+                <div class="building-header">
+                    <div class="building-icon">🏛️</div>
+                    <div>
+                        <div class="building-title">Jefferson Hall</div>
+                    </div>
+                </div>
+                <div class="building-subtitle">Government & International Relations</div>
+                <div class="building-year">Built: 1921</div>
+                <div class="building-description">
+                    Named after alumnus Thomas Jefferson, this neoclassical building houses the Government department and reflects the college's proud tradition of educating public servants and statesmen. The building's architecture evokes the founding era while serving modern academic needs.
+                </div>
+                <div class="building-highlights">
+                    <div class="highlights-title">Political Legacy:</div>
+                    <div class="highlights-list">
+                        • Named after President Thomas Jefferson (Class of 1762)<br>
+                        • Home to highly ranked Government department<br>
+                        • Training ground for future public servants<br>
+                        • Neoclassical architecture honoring founding principles
+                    </div>
+                </div>
+            </div>
+
+            <div class="building-card fade-in" onclick="highlightCard(this)">
+                <div class="era-badge">Modern</div>
+                <div class="building-header">
+                    <div class="building-icon">🏛️</div>
+                    <div>
+                        <div class="building-title">Marshall-Wythe School of Law</div>
+                    </div>
+                </div>
+                <div class="building-subtitle">America's First Law School</div>
+                <div class="building-year">Built: 1980 (Program Founded: 1779)</div>
+                <div class="building-description">
+                    Home to America's first law school, established in 1779 by George Wythe, Thomas Jefferson's law professor. The modern building houses one of the nation's most prestigious law programs, continuing the tradition of legal education that began in colonial Williamsburg.
+                </div>
+                <div class="building-highlights">
+                    <div class="highlights-title">Legal Education Pioneer:</div>
+                    <div class="highlights-list">
+                        • America's first law school (founded 1779)<br>
+                        • Named after George Wythe and John Marshall<br>
+                        • Consistently ranked among top law schools<br>
+                        • Rich tradition of producing judges and legal scholars
+                    </div>
+                </div>
+            </div>
+
+            <div class="building-card fade-in" onclick="highlightCard(this)">
+                <div class="era-badge">Modern</div>
+                <div class="building-header">
+                    <div class="building-icon">🔬</div>
+                    <div>
+                        <div class="building-title">Integrated Science Center</div>
+                    </div>
+                </div>
+                <div class="building-subtitle">State-of-the-Art Research Facility</div>
+                <div class="building-year">Built: 2008-2014</div>
+                <div class="building-description">
+                    This multi-phase complex represents William & Mary's commitment to cutting-edge scientific research and education. The ISC houses biology, chemistry, physics, and psychology departments with advanced laboratories and collaborative research spaces.
+                </div>
+                <div class="building-highlights">
+                    <div class="highlights-title">Scientific Innovation:</div>
+                    <div class="highlights-list">
+                        • Advanced research laboratories and equipment<br>
+                        • Interdisciplinary collaboration spaces<br>
+                        • Sustainable design and energy efficiency<br>
+                        • Support for undergraduate and graduate research
+                    </div>
+                </div>
+            </div>
+
+            <div class="building-card fade-in" onclick="highlightCard(this)">
+                <div class="era-badge">Traditional</div>
+                <div class="building-header">
+                    <div class="building-icon">🏃‍♀️</div>
+                    <div>
+                        <div class="building-title">Kaplan Arena</div>
+                    </div>
+                </div>
+                <div class="building-subtitle">Athletic and Recreation Center</div>
+                <div class="building-year">Built: 1971</div>
+                <div class="building-description">
+                    Home to William & Mary Tribe athletics, Kaplan Arena hosts basketball games and serves as a center for campus recreation and fitness. The facility represents the college's commitment to developing well-rounded students through athletics and physical fitness.
+                </div>
+                <div class="building-highlights">
+                    <div class="highlights-title">Athletic Tradition:</div>
+                    <div class="highlights-list">
+                        • Home court for the Tribe basketball teams<br>
+                        • Multi-purpose recreational and fitness facility<br>
+                        • Host to major campus events and activities<br>
+                        • Center of school spirit and community gatherings
+                    </div>
+                </div>
+            </div>
+
+            <div class="building-card fade-in" onclick="highlightCard(this)">
+                <div class="era-badge">Historic</div>
+                <div class="building-header">
+                    <div class="building-icon">🎵</div>
+                    <div>
+                        <div class="building-title">Phi Beta Kappa Memorial Hall</div>
+                    </div>
+                </div>
+                <div class="building-subtitle">Performing Arts Center</div>
+                <div class="building-year">Built: 1957</div>
+                <div class="building-description">
+                    Named to honor Phi Beta Kappa honor society, which was founded at William & Mary in 1776, this building serves as the campus's main performing arts venue. It hosts theatre productions, concerts, lectures, and major campus ceremonies.
+                </div>
+                <div class="building-highlights">
+                    <div class="highlights-title">Cultural Center:</div>
+                    <div class="highlights-list">
+                        • Named for honor society founded at W&M in 1776<br>
+                        • Main venue for performing arts and cultural events<br>
+                        • Host to commencement and major ceremonies<br>
+                        • Center of campus artistic and cultural life
+                    </div>
+                </div>
+            </div>
+
+            <div class="building-card fade-in" onclick="highlightCard(this)">
+                <div class="era-badge">Colonial</div>
+                <div class="building-header">
+                    <div class="building-icon">🏛️</div>
+                    <div>
+                        <div class="building-title">Brafferton Building</div>
+                    </div>
+                </div>
+                <div class="building-subtitle">Historic Indian School</div>
+                <div class="building-year">Built: 1723</div>
+                <div class="building-description">
+                    Originally built to house the Brafferton Indian School, this historic building represents an early (though problematic) attempt at cross-cultural education. Today it houses administrative offices and stands as a reminder of the complex history of colonial-era Native American relations.
+                </div>
+                <div class="building-highlights">
+                    <div class="highlights-title">Historical Context:</div>
+                    <div class="highlights-list">
+                        • Built for educating Native American students<br>
+                        • Represents colonial-era cross-cultural encounters<br>
+                        • Important example of 18th-century architecture<br>
+                        • Now houses college administrative offices
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="walking-path">
+            <div class="path-title pulse">🚶‍♂️ Recommended Campus Walking Tour</div>
+            <div class="path-description">
+                <strong>Historic Core Route:</strong> Begin at the iconic Wren Building and explore the historic heart of campus. Visit the President's House, then walk to see the Brafferton Building. Continue to Jefferson Hall and Ewell Hall to experience the academic tradition. Head to Swem Library for the modern academic center, then explore the Integrated Science Center for cutting-edge research facilities. Visit the Marshall-Wythe Law School to see America's first law school, then end at Miller Hall for business education excellence. Optional stops include the Muscarelle Museum for arts culture, Phi Beta Kappa Hall for performing arts, and Kaplan Arena for athletics. The full tour covers approximately 2 miles and showcases over 300 years of American higher education history.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function highlightCard(card) {
+            // Remove highlight from all cards
+            const allCards = document.querySelectorAll('.building-card');
+            allCards.forEach(c => {
+                c.style.borderColor = '#115740';
+                c.style.transform = 'translateY(0) scale(1)';
+            });
+            
+            // Highlight clicked card
+            card.style.borderColor = '#FFD700';
+            card.style.transform = 'translateY(-8px) scale(1.02)';
+            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // Add staggered animation delays
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.building-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.15}s`;
+            });
+
+            // Add era-based color coding
+            const eraBadges = document.querySelectorAll('.era-badge');
+            eraBadges.forEach(badge => {
+                const era = badge.textContent;
+                switch(era) {
+                    case 'Colonial':
+                        badge.style.background = '#8B4513';
+                        break;
+                    case 'Victorian':
+                        badge.style.background = '#663399';
+                        break;
+                    case '20th Century':
+                        badge.style.background = '#2E8B57';
+                        break;
+                    case 'Modern':
+                        badge.style.background = '#4169E1';
+                        break;
+                    default:
+                        badge.style.background = '#115740';
+                }
+            });
+        });
+
+        // Add interactive hover effects
+        document.querySelectorAll('.building-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.boxShadow = '0 20px 50px rgba(17, 87, 64, 0.4)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                if (this.style.borderColor !== 'rgb(255, 215, 0)') {
+                    this.style.boxShadow = '0 10px 30px rgba(17, 87, 64, 0.2)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
