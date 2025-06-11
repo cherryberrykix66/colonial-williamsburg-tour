@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colonial Williamsburg Historic District Tour</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #8B4513 0%, #DEB887 50%, #F5DEB3 100%);
+            min-height: 100vh;
+            color: #2F1B14;
+        }
+
+        .header {
+            background: rgba(139, 69, 19, 0.9);
+            color: #F5DEB3;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .tour-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .tour-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .building-card {
+            background: rgba(245, 222, 179, 0.95);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            border: 3px solid #8B4513;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .building-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.3);
+            border-color: #A0522D;
+        }
+
+        .building-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .building-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+            color: #8B4513;
+        }
+
+        .building-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #2F1B14;
+        }
+
+        .building-subtitle {
+            font-size: 0.9rem;
+            color: #8B4513;
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        .building-description {
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .building-highlights {
+            background: rgba(139, 69, 19, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #8B4513;
+            margin-top: 1rem;
+        }
+
+        .highlights-title {
+            font-weight: bold;
+            color: #8B4513;
+            margin-bottom: 0.5rem;
+        }
+
+        .highlights-list {
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .tour-info {
+            background: rgba(245, 222, 179, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 3px solid #8B4513;
+            text-align: center;
+        }
+
+        .tour-info h2 {
+            color: #8B4513;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .walking-path {
+            background: rgba(160, 82, 45, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+            border: 2px dashed #8B4513;
+        }
+
+        .path-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #8B4513;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .path-description {
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tour-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .building-card {
+                padding: 1rem;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🏛️ Colonial Williamsburg Historic District</h1>
+        <p>A Journey Through America's Revolutionary Past</p>
+    </div>
+
+    <div class="tour-container">
+        <div class="tour-info fade-in">
+            <h2>Welcome to Your Historic Tour</h2>
+            <p>Explore the most significant buildings in Colonial Williamsburg, Virginia's restored 18th-century capital. Each location played a crucial role in shaping American history and the path to independence.</p>
+        </div>
+
+        <div class="tour-grid">
+            <div class="building-card fade-in" onclick="highlightCard(this)">
+                <div class="building-header">
+                    <div class="building-icon">🏛️</div>
+                    <div>
+                        <div class="building-title">Capitol Building</div>
+                        <div class="building-subtitle">Seat of Colonial Government</div>
+                    </div>
+                </div>
+                <div class="building-description">
+                    The reconstructed Virginia Capitol served as the meeting place for the colonial House of Burgesses and General Court from 1705-1780. This is where Patrick Henry delivered his famous "Caesar-Brutus" speech and where many of the ideas that sparked the American Revolution were debated.
+                </div>
+                <div class="building-highlights">
+                    <div class="highlights-title">Historical Significance:</div>
+                    <div class="highlights-list">
+                        • First elected legislative assembly in the New World<br>
+                        • Site of treason trial discussions and revolutionary debates<br>
+                        • Where Virginia's resolves against the Stamp Act were passed<br>
+                        • Meeting place that influenced the Declaration of Independence
+                    </div>
+                </div>
+            </div>
+
+            <div class="building-card fade-in" onclick="highlightCard(this)">
+                <div class="building-header">
+                    <div class="building-icon">👑</div>
+                    <div>
+                        <div class="building-title">Governor's Palace</div>
+                        <div class="building-subtitle">Royal Residence & Power Center</div>
+                    </div>
+                </div>
+                <div class="building-description">
+                    The elegant Georgian mansion served as home and office to seven royal governors and the first two governors of the Commonwealth of Virginia, including Patrick Henry and Thomas Jefferson. The Palace symbolized British royal authority in colonial America.
+                </div>
+                <div class="building-highlights">
+                    <div class="highlights-title">Notable Features:</div>
+                    <div class="highlights-list">
+                        • Elaborate formal gardens and ballroom for entertaining<br>
+                        • Arsenal displaying 18th-century weapons<br>
+                        • Residence of Lord Dunmore during revolutionary tensions<br>
+                        • Later home to Virginia's first elected governors
+                    </div>
+                </div>
+            </div>
+
+            <div class="building-card fade-in" onclick="highlightCard(this)">
+                <div class="building-header">
+                    <div class="building-icon">⚖️</div>
+                    <div>
+                        <div class="building-title">Courthouse</div>
+                        <div class="building-subtitle">Colonial Justice System</div>
+                    </div>
+                </div>
+                <div class="building-description">
+                    The colonial courthouse served as the center of local government and justice for James City County. Here, colonists experienced British law firsthand, and many legal precedents that would influence American jurisprudence were established.
+                </div>
+                <div class="building-highlights">
+                    <div class="highlights-title">Legal Heritage:</div>
+                    <div class="highlights-list">
+                        • Monthly court sessions for civil and criminal cases<br>
+                        • Venue for property transactions and legal disputes<br>
+                        • Site where colonial legal traditions evolved<br>
+                        • Important symbol of local self-governance
+                    </div>
+                </div>
+            </div>
+
+            <div class="building-card fade-in" onclick="highlightCard(this)">
+                <div class="building-header">
+                    <div class="building-icon">🛠️</div>
+                    <div>
+                        <div class="building-title">Public Gaol</div>
+                        <div class="building-subtitle">Colonial Prison & Detention</div>
+                    </div>
+                </div>
+                <div class="building-description">
+                    The sturdy brick prison housed everyone from debtors and runaway slaves to accused pirates and political prisoners. During the Revolution, it held British prisoners of war and colonists accused of loyalist activities.
+                </div>
+                <div class="building-highlights">
+                    <div class="highlights-title">Revolutionary Role:</div>
+                    <div class="highlights-list">
+                        • Held captured British soldiers and Hessian mercenaries<br>
+                        • Confined suspected Tories and British sympathizers<br>
+                        • Housed debtors in the adjacent keeper's quarters<br>
+                        • Stark reminder of 18th-century justice and punishment
+                    </div>
+                </div>
+            </div>
+
+            <div class="building-card fade-in" onclick="highlightCard(this)">
+                <div class="building-header">
+                    <div class="building-icon">⛪</div>
+                    <div>
+                        <div class="building-title">Bruton Parish Church</div>
+                        <div class="building-subtitle">Colonial Spiritual Center</div>
+                    </div>
+                </div>
+                <div class="building-description">
+                    This active Episcopal church has served the Williamsburg community since 1715. Many founding fathers worshipped here, including George Washington, Thomas Jefferson, and Peyton Randolph. The church represents the established Anglican faith in colonial Virginia.
+                </div>
+                <div class="building-highlights">
+                    <div class="highlights-title">Historical Worship:</div>
+                    <div class="highlights-list">
+                        • Pew rentals reflected colonial social hierarchy<br>
+                        • Burial ground contains colonial and revolutionary figures<br>
+                        • Sunday services attended by political leaders<br>
+                        • Symbol of established religion in colonial society
+                    </div>
+                </div>
+            </div>
+
+            <div class="building-card fade-in" onclick="highlightCard(this)">
+                <div class="building-header">
+                    <div class="building-icon">🏫</div>
+                    <div>
+                        <div class="building-title">College of William & Mary</div>
+                        <div class="building-subtitle">America's Second-Oldest College</div>
+                    </div>
+                </div>
+                <div class="building-description">
+                    Founded in 1693, the College educated many future leaders of the American Revolution. The historic Wren Building housed classrooms where Thomas Jefferson, James Monroe, and other founding fathers studied. The college's honor code and academic traditions influenced American higher education.
+                </div>
+                <div class="building-highlights">
+                    <div class="highlights-title">Academic Legacy:</div>
+                    <div class="highlights-list">
+                        • Educated three U.S. presidents and many founding fathers<br>
+                        • First American college to establish an honor code<br>
+                        • Training ground for Virginia's political leadership<br>
+                        • Center of Enlightenment thinking in colonial America
+                    </div>
+                </div>
+            </div>
+
+            <div class="building-card fade-in" onclick="highlightCard(this)">
+                <div class="building-header">
+                    <div class="building-icon">🏃</div>
+                    <div>
+                        <div class="building-title">Raleigh Tavern</div>
+                        <div class="building-subtitle">Political Meeting Place</div>
+                    </div>
+                </div>
+                <div class="building-description">
+                    This famous tavern served as an unofficial meeting place for Virginia's political leaders when the royal governor dissolved the House of Burgesses. The Apollo Room hosted crucial revolutionary discussions and the founding of Phi Beta Kappa honor society.
+                </div>
+                <div class="building-highlights">
+                    <div class="highlights-title">Revolutionary Meetings:</div>
+                    <div class="highlights-list">
+                        • Site of the Virginia Association boycott agreements<br>
+                        • Meeting place after Capitol sessions were suspended<br>
+                        • Social center for political networking and debates<br>
+                        • Birthplace of America's first academic honor society
+                    </div>
+                </div>
+            </div>
+
+            <div class="building-card fade-in" onclick="highlightCard(this)">
+                <div class="building-header">
+                    <div class="building-icon">🔨</div>
+                    <div>
+                        <div class="building-title">Wythe House</div>
+                        <div class="building-subtitle">Home of George Wythe</div>
+                    </div>
+                </div>
+                <div class="building-description">
+                    Home of George Wythe, signer of the Declaration of Independence and law professor to Thomas Jefferson. This elegant brick mansion represents the lifestyle of Virginia's educated elite and served as a center of legal and political thought.
+                </div>
+                <div class="building-highlights">
+                    <div class="highlights-title">Educational Influence:</div>
+                    <div class="highlights-list">
+                        • Home of America's first law professor<br>
+                        • Where Thomas Jefferson studied law<br>
+                        • Center of legal education and Enlightenment ideas<br>
+                        • Residence of a Declaration of Independence signer
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="walking-path">
+            <div class="path-title">🚶‍♂️ Suggested Walking Route</div>
+            <div class="path-description">
+                Begin at the Capitol Building and walk down Duke of Gloucester Street (the main thoroughfare) toward the College of William & Mary. Stop at the Courthouse, then visit Bruton Parish Church. Continue to the Raleigh Tavern, then take a short detour to see the Wythe House. End with the Governor's Palace and Public Gaol. The entire historic area is walkable and spans about one mile, allowing you to experience the layout of an 18th-century colonial capital.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function highlightCard(card) {
+            // Remove highlight from all cards
+            const allCards = document.querySelectorAll('.building-card');
+            allCards.forEach(c => c.style.borderColor = '#8B4513');
+            
+            // Highlight clicked card
+            card.style.borderColor = '#FF6B35';
+            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // Add animation delay to cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.building-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
+    </script>
+</body>
+</html>
